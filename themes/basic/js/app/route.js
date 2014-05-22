@@ -1,19 +1,26 @@
-define(['module'], function(module)
+define(['config'], function(config)
 {
-  var baseUrl = module.config().baseUrl;
-  var baseTplUrl = module.config().baseTplUrl;
+  var baseUrl = config.baseUrl;
+  var baseTplUrl = config.baseTplUrl;
 
   return [
-    '$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider)
+    '$stateProvider', '$urlRouterProvider', '$locationProvider',
+    function($stateProvider, $urlRouterProvider, $locationProvider)
     {
-      $urlRouterProvider.otherwise('/console');
+      $locationProvider.html5Mode(true).hashPrefix('!');
+
+      $urlRouterProvider.otherwise(baseUrl);
 
       $stateProvider
 
       .state('foo', {
-        url        : baseUrl,
+        url        : baseUrl + '/foo',
         templateUrl: baseTplUrl + '/welcome.html'
+      })
+
+      .state('account', {
+        url        : baseUrl + '/account/:accountId',
+        templateUrl: baseTplUrl + '/account/config.html'
       })
 
       .state('welcome', {

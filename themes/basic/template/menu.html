@@ -1,0 +1,45 @@
+<nav ng-controller="Menu" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
+				<span class="sr-only">顶部导航</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" ui-sref="welcome" ng-bind="currentAccount.name"></a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" collapse="isCollapsed" ng-if="ready">
+			<div ng-if="!user.id">
+				<a ui-sref="login" class="btn btn-success navbar-btn navbar-right">登录</a>
+			</div>
+			<div ng-if="user.id">
+				<ul class="nav navbar-nav">
+					<li ui-sref-active="active" ng-repeat="(state, caption) in menu">
+						<a ui-sref="{{state}}" ng-bind="caption"></a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a class="dropdown-toggle">{{user.name}} <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li ng-repeat="account in accounts" ng-class="{disabled:account.isCurrent}" class="account-item">
+								<a ng-click="changeAccount(account.id)" tabindex="-1">{{account.name}}</a>
+								<a ui-sref="account({accountId:account.id})" class="account-config"><span class="glyphicon glyphicon-cog"></span></a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a ng-click="logout()" tabindex="-1">注销</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /.navbar-collapse -->
+	</div>
+	<!-- /.container-fluid -->
+</nav>

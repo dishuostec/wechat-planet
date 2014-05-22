@@ -1,44 +1,62 @@
-define(['controller', 's/auth'], function(Controllers)
+define(['angular', 'controller', 's/auth'], function(angular, Controllers)
 {
   Controllers.controller('Menu', [
-    '$scope', '$rootScope', '$auth$', '$api$', '$q',
-    function($scope, $rootScope, $auth$, $api$, $q)
+    '$scope', '$rootScope', '$auth$', '$api$', '$state', '$window',
+    function($scope, $rootScope, $auth$, $api$, $state, $window)
     {
+      $scope.ready = false;
+
       $scope.isCollapsed = true;
       $scope.menu = null;
       $scope.user = null;
+      $scope.currentAccount = null;
+      $scope.accounts = null;
+
+      var logoutCallback = function()
+      {
+        console.log('logged out');
+        $window.location.reload();
+      };
+
+      $rootScope.$on('auth.logout', logoutCallback);
 
       $scope.logout = function()
       {
         console.log('logout');
         require(['ptloginout'], function(ptloginout)
         {
-          ptloginout.logout(function()
-          {
-            console.log('ptloginout callback');
-            $auth$.checkState(true);
-          });
+          ptloginout.logout(logoutCallback);
         })
       };
 
-      $rootScope.$on('auth.login', function(e, user)
+      $scope.changeAccount = function(account_id)
       {
-        console.log('logged in', user);
-        $scope.user = user;
-        $api$.get('auth').success(function(menu)
+        if (account_id === $scope.currentAccount.id) {
+          return false;
+        }
+
+        $api$.post('account/' + account_id).success(function()
+        {
+          $window.location.reload();
+        });
+      };
+
+      $auth$.checkState().then(function(auth)
+      {
+        $scope.ready = true;
+
+        $scope.user = auth.getUser();
+        $scope.currentAccount = auth.getCurrentAccount();
+        $scope.accounts = auth.getAccounts();
+
+        $api$.get('auth/menu').success(function(menu)
         {
           $scope.menu = menu;
         });
-      });
-
-      $rootScope.$on('auth.logout', function(e, user)
+      }, function()
       {
-        console.log('logged out', user);
-        $scope.menu = null;
-        $scope.user = null;
+        $scope.ready = true;
       });
-
-      $auth$.checkState();
     }
   ]);
 });

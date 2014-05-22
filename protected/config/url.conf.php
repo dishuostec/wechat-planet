@@ -8,11 +8,11 @@ return array(
         // 控制台api
         array(
             'console/<_m>/api',
-            'pattern' => 'console/api/<_m:\w+>(?:/<id:\d+|\w{20,}>)?',
+            'pattern' => 'console/api/<_m:\w+>(?:/<id:\d+|\w{10,}>)?',
         ),
         array(
             'console/<_m>/api/<_r>',
-            'pattern' => 'console/api/<_m:\w+>/<_r:\w+>(?:/<id:\d+|\w{20,}>)?',
+            'pattern' => 'console/api/<_m:\w+>/<_r:\w+>(?:/<id:\d+|\w{10,}>)?',
         ),
         // 控制台模块默认页面
         'console/<any:.*>'  => 'console/default/index',

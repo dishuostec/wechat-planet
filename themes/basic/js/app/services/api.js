@@ -1,9 +1,9 @@
-define(['angular', 'service'], function(angular, Service)
+define(['angular', 'service', 'config'], function(angular, Service, config)
 {
   Service.factory('$api$', [
     '$http', function($http)
     {
-      var apiPath = '/console/api/';
+      var apiPath = config.baseApi + '/';
 
       var api = {};
 

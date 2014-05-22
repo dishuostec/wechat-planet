@@ -11,6 +11,7 @@ define(['angular', 'service'], function(angular, Service)
       };
       var add = function(msg, type)
       {
+        console.info('[s]alert add', msg, type);
         var id = uid();
 
         alerts_list.push({
@@ -19,17 +20,20 @@ define(['angular', 'service'], function(angular, Service)
           type: type
         });
 
+        $rootScope.$emit('Alert', alerts_list);
         return id;
       };
 
       var clear = function()
       {
-        alerts_list = [];
         console.info('[s]alert clear');
+        alerts_list = [];
+        $rootScope.$emit('Alert', alerts_list);
       };
 
       var remove = function(id)
       {
+        console.info('[s]alert remove', id);
         var new_list = [];
         angular.forEach(alerts_list, function(alert)
         {
@@ -40,18 +44,8 @@ define(['angular', 'service'], function(angular, Service)
           this.push(alert);
         }, new_list);
         alerts_list = new_list;
-      };
-
-      $rootScope.$watch(function()
-      {
-        return angular.forEach(alerts_list, function(alert)
-        {
-          return alert.id;
-        });
-      }, function()
-      {
         $rootScope.$emit('Alert', alerts_list);
-      });
+      };
 
       var service = {
         remove: remove,

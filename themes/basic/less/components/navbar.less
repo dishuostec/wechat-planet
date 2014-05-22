@@ -1,0 +1,20 @@
+@import "variables";
+
+.dropdown-menu {
+  > .account-item {
+    position: relative;
+
+    > .account-config {
+      position: absolute;
+      padding-left: 0;
+      top: 0;
+      right: 0;
+
+      &:hover {
+        color: @brand-danger;
+        background-color: inherit;
+        cursor: pointer;
+      }
+    }
+  }
+}

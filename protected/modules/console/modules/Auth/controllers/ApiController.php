@@ -19,10 +19,10 @@ class ApiController extends CApiController
     /**
      * 根据身份返回导航菜单
      */
-    public function actionGet()
+    public function actionGetMenu()
     {
         if ($this->_auth->isGuest) {
-            $this->needLogin();
+            $this->errorUnauthorized();
             return;
         }
 
@@ -38,12 +38,15 @@ class ApiController extends CApiController
     public function actionPost()
     {
         if ($this->_auth->isGuest) {
-//            $this->needLogin();
-            $this->errorMessage('请登录');
+            $this->errorUnauthorized();
+            //            $this->errorMessage('请登录');
             return;
         }
 
-        $manager = $this->_auth->manager;
+        $manager = $this->_auth->manager->getAttributes();
+
+        $manager['accounts'] = $this->extract($this->_auth->manager->accounts,
+            Account::extractFields());
 
         $this->response($manager);
     }

@@ -2,7 +2,13 @@
 
 /**
  * Class Manager
+ * 后台管理员模型
+ *
  * @property string $open_id
+ *
+ * 关系模型
+ * @property Array $accounts 关联的公众号
+ * @property Account $currentAccount 当前操作的公众号
  */
 class Manager extends CActiveRecord
 {
@@ -31,7 +37,11 @@ class Manager extends CActiveRecord
 
     public function relations()
     {
-        return array();
+        return array(
+            'accounts' => array(
+                self::MANY_MANY, 'Account', '{{manager_account}}(manager_id, account_id)',
+            ),
+        );
     }
 
     public function verified()
@@ -61,5 +71,28 @@ class Manager extends CActiveRecord
     {
         $this->update_at = time();
         return parent::update($attributes);
+    }
+
+    /**
+     * 获取指定的关联公众号
+     *
+     * @param $account_id
+     * @return Account|null
+     */
+    public function getAccount($account_id)
+    {
+        if (empty($account_id)) {
+            return NULL;
+        }
+
+        $list = $this->accounts(array(
+            'condition' => 'accounts.id=:id',
+            'params'    => array(
+                ':id' => $account_id,
+            ),
+            'limit'     => 1,
+        ));
+
+        return array_pop($list);
     }
 }

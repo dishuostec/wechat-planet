@@ -4,6 +4,9 @@ define(['angular', 'service', 's/api'], function(angular, Service)
     '$rootScope', '$api$', '$q', function($rootScope, $api$, $q)
     {
       var auth = {};
+      var user;
+      var accounts;
+      var currentAccount;
       var checked;
 
       $rootScope.$watch(function()
@@ -16,6 +19,21 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         }
       });
 
+      var dataProvider = {
+        getUser          : function()
+        {
+          return user;
+        },
+        getAccounts      : function()
+        {
+          return accounts;
+        },
+        getCurrentAccount: function()
+        {
+          return currentAccount;
+        }
+      };
+
       var checkState = function(force)
       {
         if (! checked || force) {
@@ -26,7 +44,21 @@ define(['angular', 'service', 's/api'], function(angular, Service)
           $api$.post('auth').success(function(json)
           {
             auth = json;
-            defer.resolve(auth);
+
+            user = angular.copy(json);
+            accounts = angular.copy(user.accounts);
+            delete user.accounts;
+
+            angular.forEach(accounts, function(account, key)
+            {
+              if (account.isCurrent) {
+                currentAccount = accounts[key];
+              }
+            });
+
+            console.info('[s]auth', user, accounts, currentAccount);
+
+            defer.resolve(dataProvider);
           }).error(function(data)
           {
             defer.reject();
@@ -37,11 +69,7 @@ define(['angular', 'service', 's/api'], function(angular, Service)
       };
 
       return {
-        checkState: checkState,
-        getUser   : function()
-        {
-          return auth;
-        }
+        checkState: checkState
       };
     }
   ]);

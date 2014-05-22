@@ -106,7 +106,8 @@ return array(
         'WeChat'  => array(),
         'console' => array(
             'modules' => array(
-                'auth' => array() //身份校验
+                'auth'    => array(), //身份校验
+                'account' => array(), //公众号
             ),
         ),
     ),

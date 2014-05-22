@@ -65,6 +65,6 @@ class Cookie extends CApplicationComponent
         mcrypt_generic_deinit($td);
         mcrypt_module_close($td);
 
-        return $decrypted_data;
+        return trim($decrypted_data);
     }
 }

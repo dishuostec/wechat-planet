@@ -1,20 +1,14 @@
 define([
-  'angular', 'route', 'ngUi', 'ngUiRouter',
+  'angular', 'route', 'angularAnimate', 'ngUi', 'ngUiRouter',
 
-  'c/Auth', 'c/Menu', 'c/Alert',
+  'c/Auth', 'c/Menu', 'c/Alert', 'c/Account',
 
   's/apiHttpInterceptor'
 ], function(angular, route)
 {
-  var con = angular.module('Console',
-  ['ui.router', 'ui.bootstrap', 'Controllers', 'Services', 'Directives'])
-
-    // url设置
-  .config([
-    '$locationProvider', function($locationProvider)
-    {
-      $locationProvider.html5Mode(true).hashPrefix('!');
-    }
+  var con = angular.module('Console', [
+    'ui.router', 'ui.bootstrap', 'Controllers', 'Services', 'Directives',
+    'ngAnimate'
   ])
 
     // 全局错误处理
