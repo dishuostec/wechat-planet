@@ -20,7 +20,7 @@
  * @property Manager $rootManager
  * @property Array $managers
  */
-class Account extends CActiveRecord
+class Account extends ActiveRecord
 {
     const TYPE_SERVICE = 1;
     const TYPE_SUBSCRIPTION = 2;
@@ -56,8 +56,21 @@ class Account extends CActiveRecord
         return array(
             array('id, name, type, root_manager_id', 'required', 'on' => 'create'),
             array('name, type', 'required', 'on' => 'update'),
-            array('appid', 'length', 'min' => 1, 'max' => 18),
-            array('appsecret', 'length', 'min' => 1, 'max' => 32),
+            array('name', 'length', 'max' => 20),
+            array('type', 'validField'),
+            array('appid', 'length', 'max' => 18),
+            array('appsecret', 'length', 'max' => 32),
+        );
+    }
+
+    public function attributeLabels()
+    {
+        return array(
+            'id'        => '原始ID',
+            'name'      => '名称',
+            'type'      => '类型',
+            'appid'     => 'AppId',
+            'appsecret' => 'AppSecret',
         );
     }
 
@@ -92,5 +105,15 @@ class Account extends CActiveRecord
     public function getIsCurrent()
     {
         return Mod::app()->Auth->isCurrentAccount($this);
+    }
+
+    public static function type($index = NULL)
+    {
+        $array = array(
+            self::TYPE_SERVICE      => '服务号',
+            self::TYPE_SUBSCRIPTION => '订阅号',
+        );
+
+        return is_null($index) ? $array : Arr::get($array, $index, '');
     }
 }

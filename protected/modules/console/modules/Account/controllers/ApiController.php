@@ -46,10 +46,10 @@ class ApiController extends CAuthedController
 
         $account->scenario = 'update';
         $account->setAttributes($this->getRequestData());
+
         if ($account->save()) {
             $this->successNoContent();
-        }
-        else{
+        } else {
             $this->errorNotAcceptable($account->getErrors());
         }
     }

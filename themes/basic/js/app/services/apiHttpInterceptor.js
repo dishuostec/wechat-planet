@@ -48,16 +48,16 @@ define(['service', 'config', 's/alert'], function(Service, config)
 
         switch (rejection.status) {
           case 400: // 错误消息
-            $alert$.error(rejection.data);
+            $alert$.error(rejection.data, 5000);
             break;
           case 401: // 未登录
             $state.go('login');
             break;
           case 403:
-            $alert$.error({message: '没有权限'});
+            $alert$.error({message: '没有权限'}, 5000);
             break;
           case 404:
-            $alert$.error({message: '请求的资源不存在'});
+            $alert$.error({message: '请求的资源不存在'}, 5000);
             break;
           case 406: // 提交参数错误
             angular.forEach(rejection.data, function(errors)
@@ -72,10 +72,10 @@ define(['service', 'config', 's/alert'], function(Service, config)
             $alert$.error({message: '达到API请求次数限制'});
             break;
           case 500: // 服务器错误
-            $alert$.warning({message: '服务器错误'});
+            $alert$.warn({message: '服务器错误'});
             break;
           case 503: // 服务器不可用
-            $alert$.warning({message: '服务器暂不可用'});
+            $alert$.warn({message: '服务器暂不可用'});
             break;
           default :
             console.log(rejection);
