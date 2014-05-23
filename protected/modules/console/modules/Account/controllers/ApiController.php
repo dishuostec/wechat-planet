@@ -21,15 +21,17 @@ class ApiController extends CAuthedController
      * 获取公众号数据
      * @param $id
      */
-    public function actionGetById($id)
+    public function actionPostDetailById($id)
     {
-        $account = $this->manager->getAccount($id);
-
-        if ($account) {
-            $this->response($account);
-        } else {
+        if (! ($account = $this->manager->getAccount($id))) {
             $this->errorForbidden();
+            return;
         }
+
+        $array = Arr::merge($account->getAttributes(),
+            $this->extract($account, array('url')));
+
+        $this->response($array);
     }
 
     /**
@@ -37,10 +39,8 @@ class ApiController extends CAuthedController
      */
     public function actionPutById($id)
     {
-        $account = $this->manager->getAccount($id);
-
-        if (! $account) {
-            $this->errorNotFound();
+        if (! ($account = $this->manager->getAccount($id))) {
+            $this->errorForbidden();
             return;
         }
 
@@ -57,13 +57,35 @@ class ApiController extends CAuthedController
     /**
      * 切换当前操作的公众号
      */
-    public function actionPostById($id)
+    public function actionPostCurrentById($id)
     {
-        $account = $this->manager->getAccount($id);
-        if ($account) {
-            $this->_auth->account = $account;
-        } else {
-            $this->errorMessage('没有权限!');
+        if (! ($account = $this->manager->getAccount($id))) {
+            $this->errorForbidden();
+            return;
         }
+
+        $this->_auth->account = $account;
+    }
+
+    public function actionPostUrlById($id)
+    {
+        if (! ($account = $this->manager->getAccount($id))) {
+            $this->errorForbidden();
+            return;
+        }
+
+        $account->changeSuffix();
+        $this->response($account->url);
+    }
+
+    public function actionPostTokenById($id)
+    {
+        if (! ($account = $this->manager->getAccount($id))) {
+            $this->errorForbidden();
+            return;
+        }
+
+        $account->changeToken();
+        $this->response($account->token);
     }
 }

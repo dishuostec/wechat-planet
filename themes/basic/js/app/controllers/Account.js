@@ -4,7 +4,15 @@ define(['angular', 'controller', 's/auth'], function(angular, Controllers)
     '$scope', '$rootScope', '$auth$', '$api$', '$stateParams', '$q',
     function($scope, $rootScope, $auth$, $api$, $stateParams, $q)
     {
-      var uri = 'account/' + $stateParams.accountId;
+      var api = function(resource)
+      {
+        if (resource) {
+          resource += '/';
+        } else {
+          resource = '';
+        }
+        return 'account/' + resource + $stateParams.accountId;
+      };
 
       $scope.ready = false;
 
@@ -16,7 +24,7 @@ define(['angular', 'controller', 's/auth'], function(angular, Controllers)
       {
         $scope.busying = true;
 
-        $api$.put(uri, $scope.account).finally(function()
+        $api$.put(api(), $scope.account).finally(function()
         {
           $scope.busying = false;
           refresh().then(function()
@@ -27,11 +35,27 @@ define(['angular', 'controller', 's/auth'], function(angular, Controllers)
         });
       };
 
+      $scope.changeUrl = function()
+      {
+        $api$.post(api('url')).success(function(json)
+        {
+          $scope.account.url = json.data;
+        });
+      };
+
+      $scope.changeToken = function()
+      {
+        $api$.post(api('token')).success(function(json)
+        {
+          $scope.account.token = json.data;
+        });
+      };
+
       var refresh = function()
       {
         var deferred = $q.defer();
 
-        $api$.get(uri).success(function(account)
+        $api$.post(api('detail')).success(function(account)
         {
           $scope.account = account;
           if ($scope.account.type == 0) {

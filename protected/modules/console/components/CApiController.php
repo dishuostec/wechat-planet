@@ -82,6 +82,8 @@ class CApiController extends CController
 
         if ($data instanceof CActiveRecord) {
             $data = $data->getAttributes();
+        } elseif (is_string($data)) {
+            $data = array('data' => $data);
         }
 
         $this->_response = $data;
@@ -257,7 +259,7 @@ class CApiController extends CController
         return (isset($codes[$status])) ? $codes[$status] : '';
     }
 
-    protected function extract(array $source, $fields)
+    protected function extract($source, $fields)
     {
         $array = array();
         if (Arr::is_assoc($fields)) {
@@ -266,9 +268,13 @@ class CApiController extends CController
         } else {
             $key = NULL;
         }
-        /**
-         * @var Account $account
-         */
+
+        $not_array = ! is_array($source);
+
+        if ($not_array) {
+            $source = array($source);
+        }
+
         foreach ($source as $item) {
             $data = array();
             foreach ($fields as $field) {
@@ -281,6 +287,6 @@ class CApiController extends CController
             }
         }
 
-        return $array;
+        return $not_array ? array_pop($array) : $array;
     }
 }

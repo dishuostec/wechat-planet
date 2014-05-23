@@ -41,6 +41,38 @@
 			</div>
 		</div>
 
+		<fieldset>
+			<div class="form-group">
+				<label for="account_url" class="col-sm-2 control-label">URL</label>
+
+				<div class="col-sm-10">
+					<div class="input-group">
+						<input type="text" id="account_url" class="form-control" ng-model="account.url" readonly>
+						<span class="input-group-btn">
+							<button class="btn btn-danger" type="button" ng-click="changeUrl()">
+								更换
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="account_token" class="col-sm-2 control-label">Token</label>
+
+				<div class="col-sm-10">
+					<div class="input-group">
+						<input type="text" id="account_token" class="form-control" ng-model="account.token" readonly>
+						<span class="input-group-btn">
+							<button class="btn btn-danger" type="button" ng-click="changeToken()">
+								更换
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button ng-click="save()" class="btn btn-primary" ng-disabled="!accountForm.$valid || busying">

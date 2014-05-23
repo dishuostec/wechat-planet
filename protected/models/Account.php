@@ -12,6 +12,7 @@
  * @property number $root_manager_id
  * @property string $token
  * @property string $suffix
+ * @property string $url
  *
  * @property bool $isService
  * @property bool $isSubscription
@@ -107,6 +108,39 @@ class Account extends ActiveRecord
     public function getIsCurrent()
     {
         return Mod::app()->Auth->isCurrentAccount($this);
+    }
+
+    public function getUrl()
+    {
+        return Mod::app()->createAbsoluteUrl('WeChat/Callback', array(
+            'suffix' => $this->suffix,
+        ));
+    }
+
+    public function changeSuffix()
+    {
+        do {
+            $suffix = Text::random('alnum', 40);
+        } while (Account::model()->exists('suffix=:suffix', array(
+            ':suffix' => $suffix,
+        )));
+
+        $this->suffix = $suffix;
+        $this->save();
+        return $this;
+    }
+
+    public function changeToken()
+    {
+        do {
+            $token = Text::random('alnum', 40);
+        } while (Account::model()->exists('token=:token', array(
+            ':token' => $token,
+        )));
+
+        $this->token = $token;
+        $this->save();
+        return $this;
     }
 
     public static function type($index = NULL)
