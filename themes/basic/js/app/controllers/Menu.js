@@ -45,8 +45,8 @@ define(['angular', 'controller', 's/auth'], function(angular, Controllers)
       {
         $scope.ready = true;
 
-        $scope.user = auth.getUser();
         $scope.currentAccount = auth.getCurrentAccount();
+        $scope.user = auth.getUser();
         $scope.accounts = auth.getAccounts();
 
         $api$.get('auth/menu').success(function(menu)

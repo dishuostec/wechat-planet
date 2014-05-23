@@ -9,6 +9,16 @@ define(['angular', 'service', 's/api'], function(angular, Service)
       var currentAccount;
       var checked;
 
+      $rootScope.$on('account.changed', function(e, changedAccount)
+      {
+        angular.forEach(accounts, function(account)
+        {
+          if (account.id === changedAccount.id) {
+            angular.copy(changedAccount, account);
+          }
+        });
+      });
+
       $rootScope.$watch(function()
       {
         return auth.id || '';
