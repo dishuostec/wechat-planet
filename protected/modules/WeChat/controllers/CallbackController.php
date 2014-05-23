@@ -1,6 +1,6 @@
 <?php
 
-class CallbackController extends CWechatController
+class CallbackController extends CMultiWechatController
 {
     public function actionMessageText($data)
     {

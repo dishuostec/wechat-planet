@@ -10,6 +10,8 @@
  * @property string $appid
  * @property string $appsecret
  * @property number $root_manager_id
+ * @property string $token
+ * @property string $suffix
  *
  * @property bool $isService
  * @property bool $isSubscription

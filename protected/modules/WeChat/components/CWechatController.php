@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class CWechatController
+ * 单公众号用
+ * @property WeChatModule $module
+ */
 class CWechatController extends CController
 {
     /**
@@ -70,9 +75,9 @@ class CWechatController extends CController
         throw new CHttpException(400, 'Invalid Request.');
     }
 
-    public function actionVerifyUrl()
+    public function actionVerifyUrl($echostr)
     {
-        echo Arr::get($_GET, 'echostr');
+        echo $echostr;
     }
 
     public function response($response)
@@ -89,6 +94,10 @@ class CWechatController extends CController
 
     protected function isRequestValid()
     {
+        if (! $this->wechat) {
+            return FALSE;
+        }
+
         $timestamp = Arr::get($_GET, 'timestamp');
         $nonce = Arr::get($_GET, 'nonce');
         $signature = Arr::get($_GET, 'signature');

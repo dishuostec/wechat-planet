@@ -5,6 +5,11 @@ return array(
     'showScriptName' => FALSE,
     //url对应的解析规则,类似于nginx和apache的rewite,支持正则
     'rules'          => array(
+        // 微信回调
+        array(
+            'WeChat/Callback',
+            'pattern' => 'wechat/cb/<suffix:[a-zA-Z0-9]+>',
+        ),
         // 控制台api
         array(
             'console/<_m>/api',
