@@ -22,6 +22,8 @@
  * 关系模型
  * @property Manager $rootManager
  * @property Array $managers
+ * @property Array $responseText
+ * @property Array $triggerText
  */
 class Account extends ActiveRecord
 {
@@ -80,12 +82,19 @@ class Account extends ActiveRecord
     public function relations()
     {
         return array(
-            'rootManager' => array(
+            'rootManager'  => array(
                 self::BELONGS_TO, 'Manager', array('id' => 'root_manager_id')
             ),
-            'managers'    => array(
+            'managers'     => array(
                 self::MANY_MANY, 'Manager', '{{manager_account}}(manager_id, account_id)',
                 'condition' => 'managers.is_banded = 0',
+            ),
+            'responseText' => array(
+                self::HAS_MANY, 'ResponseText', 'account_id',
+                'order' => 'id DESC',
+            ),
+            'triggerText'  => array(
+                self::HAS_MANY, 'TriggerText', 'account_id'
             ),
         );
     }

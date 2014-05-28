@@ -104,11 +104,12 @@ return array(
     ),
     'modules'           => array(
         'WeChat'  => array(),
-        'console' => array(
+        'api'     => array(
             'modules' => array(
-                'auth'    => array(), //身份校验
-                'account' => array(), //公众号
+                'response' => array(), //响应
+                'request'  => array(), //请求
             ),
         ),
+        'console' => array(),
     ),
 );

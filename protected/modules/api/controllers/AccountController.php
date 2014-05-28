@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class ApiController
+ * Class AccountController
  */
-class ApiController extends CAuthedController
+class AccountController extends CAuthedController
 {
     /**
      * 获取当前管理员可操作的公众号列表

@@ -1,11 +1,21 @@
 @import "config";
 @import "variables";
 
-.nav,
+.dropdown-menu>li>a,
 .pagination,
 .carousel,
 .panel-title a {
   cursor: pointer;
+}
+
+.nav-tabs {
+  > li.active > a{
+    &,
+    &:hover,
+    &:focus{
+      cursor: pointer;
+    }
+  }
 }
 
 body {

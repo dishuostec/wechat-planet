@@ -1,6 +1,6 @@
 <?php
 
-class AccountModule extends CWebModule
+class ResponseModule extends CWebModule
 {
     protected function init()
     {

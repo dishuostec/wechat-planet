@@ -1,6 +1,6 @@
 <?php
 
-class AuthModule extends CWebModule
+class TriggerModule extends CWebModule
 {
     protected function init()
     {

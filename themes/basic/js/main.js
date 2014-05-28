@@ -13,29 +13,30 @@ require.config({
     c             : 'app/controllers',
     s             : 'app/services',
     d             : 'app/directives',
+    h             : 'app/helper',
     controller    : 'app/modules/controller',
     service       : 'app/modules/service',
     directive     : 'app/modules/directive',
     ngUiRouter    : 'vendor/angular-ui-router.min',
-    ngUi          : 'vendor/ui-bootstrap-tpls-0.10.0.min',
+    ngUi          : 'vendor/ui-bootstrap-tpls.min',
     angular       : 'vendor/angular.min',
     angularAnimate: 'vendor/angular-animate.min',
     ptloginout    : 'http://imgcache.qq.com/ptlogin/ac/v9/js/ptloginout'
   },
   shim   : {
-    angular   : {
+    angular       : {
       exports: 'angular'
     },
     angularAnimate: {
       deps: ['angular']
     },
-    ngUiRouter: {
+    ngUiRouter    : {
       deps: ['angular']
     },
-    ngUi      : {
+    ngUi          : {
       deps: ['angular']
     },
-    ptloginout: {
+    ptloginout    : {
       exports: 'pt_logout'
     }
   }

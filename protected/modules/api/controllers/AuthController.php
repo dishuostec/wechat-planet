@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class ApiController
+ * Class AuthController
  */
-class ApiController extends CApiController
+class AuthController extends CApiController
 {
     /**
      * @var Auth
@@ -27,7 +27,8 @@ class ApiController extends CApiController
         }
 
         $menu = array(
-            'foo' => '测试',
+//            'trigger.list' => '自动回复',
+            'response' => '内容管理',
         );
         $this->response($menu);
     }

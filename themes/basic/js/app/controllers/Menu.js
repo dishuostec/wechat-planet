@@ -35,7 +35,7 @@ define(['angular', 'controller', 's/auth'], function(angular, Controllers)
           return false;
         }
 
-        $api$.post('account/' + account_id).success(function()
+        $api$.post('account/current/' + account_id).success(function()
         {
           $window.location.reload();
         });

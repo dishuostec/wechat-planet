@@ -46,6 +46,10 @@ class CApiController extends CController
             case 'DELETE':
                 return NULL;
                 break;
+            case 'POST':
+                $json = json_decode($request->getRawBody(), TRUE);
+                return is_null($json) ? $_POST : $json;
+                break;
             default:
                 return $_POST;
         }

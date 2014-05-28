@@ -84,7 +84,7 @@ define(['service', 'config', 's/alert'], function(Service, config)
 
       var tplError = function(rejection)
       {
-        $alert$.warning({
+        $alert$.warn({
           message: '加载模版失败: {tpl}',
           params : {
             tpl: rejection.config.url.slice(config.baseTplUrl.length)

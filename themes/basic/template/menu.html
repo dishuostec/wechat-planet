@@ -26,7 +26,7 @@
 					<li class="dropdown">
 						<a class="dropdown-toggle">{{user.name}} <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li ng-repeat="account in accounts" ng-class="{disabled:account.isCurrent}" class="account-item">
+							<li ng-repeat="account in accounts" ng-class="{active:account.isCurrent}" class="account-item">
 								<a ng-click="changeAccount(account.id)" tabindex="-1">{{account.name}}</a>
 								<a ui-sref="account({accountId:account.id})" class="account-config"><span class="glyphicon glyphicon-cog"></span></a>
 							</li>
