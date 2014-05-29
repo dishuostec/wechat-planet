@@ -18,55 +18,55 @@ class CWechatController extends CController
         $this->wechat = $this->module->instance();
     }
 
-    public function actionEventClick($data)
+    public function actionEventClick(WechatEventClick $data)
     {
     }
 
-    public function actionEventLocation($data)
+    public function actionEventLocation(WechatEventLocation $data)
     {
     }
 
-    public function actionEventScan($data)
+    public function actionEventScan(WechatEventScan $data)
     {
     }
 
-    public function actionEventSubscribe($data)
+    public function actionEventSubscribe(WechatEventSubscribe $data)
     {
     }
 
-    public function actionEventUnsubscribe($data)
+    public function actionEventUnsubscribe(WechatEventUnsubscribe $data)
     {
     }
 
-    public function actionMessageImage($data)
+    public function actionMessageImage(WechatMessageImage $data)
     {
     }
 
-    public function actionMessageLink($data)
+    public function actionMessageLink(WechatMessageLink $data)
     {
     }
 
-    public function actionMessageLocation($data)
+    public function actionMessageLocation(WechatMessageLocation $data)
     {
     }
 
-    public function actionMessageRecognition($data)
+    public function actionMessageRecognition(WechatMessageRecognition $data)
     {
     }
 
-    public function actionMessageText($data)
+    public function actionMessageText(WechatMessageText $data)
     {
     }
 
-    public function actionMessageVideo($data)
+    public function actionMessageVideo(WechatMessageVideo $data)
     {
     }
 
-    public function actionMessageVoice($data)
+    public function actionMessageVoice(WechatMessageVoice $data)
     {
     }
 
-    public function actionDataUnknown($data)
+    public function actionDataUnknown(WechatData $data)
     {
     }
 

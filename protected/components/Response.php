@@ -46,8 +46,8 @@ class Response extends ActiveRecord
          */
         return $className::model()
             ->findByAttributes(array(
-                'id'=>$id,
-                'accoun_id'=>$accountId,
+                'id'         => $id,
+                'account_id' => $accountId,
             ));
     }
 

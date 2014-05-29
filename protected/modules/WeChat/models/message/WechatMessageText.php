@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class WechatMessageText
+ *
+ */
 class WechatMessageText extends WechatMessage
 {
     public $MsgType = 'text';
