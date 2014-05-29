@@ -20,9 +20,9 @@ return array(
         'db'    => array(
             'nameServiceKeyMaster'  => '',
             'forceMaster'           => TRUE,
-            'connectionString'      => 'mysql:host=localhost;port=3306;dbname=',
-            'username'              => '',
-            'password'              => '',
+            'connectionString'      => 'mysql:host=localhost;port=3306;dbname=wechat_planet',
+            'username'              => 'root',
+            'password'              => 'qqdyw',
             'nameServiceKeysSlave'  => NULL,
             'slaveConfigs'          => array(),
             'enableParamLogging'    => TRUE,
