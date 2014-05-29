@@ -2,14 +2,14 @@
 	<h3 class="modal-title">{{op}}响应</h3>
 </div>
 <div class="modal-body">
-	<form role="form">
-		<div class="form-group">
+	<form role="form" name="responseForm">
+		<div class="form-group" ng-class="{'has-success':responseForm.content.$valid,'has-error':!responseForm.content.$valid}">
 			<label for="response_content">内容</label>
-			<textarea id="response_content" class="form-control" rows="3" placeholder="响应文字内容" ng-model="response.content"></textarea>
+			<textarea name="content" id="response_content" class="form-control" rows="3" placeholder="响应文字内容" ng-model="response.content" required ng-maxlength="255"></textarea>
 		</div>
 	</form>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="ok()">确定</button>
+	<button class="btn btn-primary" ng-click="ok()" ng-disabled="!responseForm.$valid">确定</button>
 	<button class="btn btn-warning" ng-click="cancel()">取消</button>
 </div>

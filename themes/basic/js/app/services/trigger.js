@@ -1,10 +1,10 @@
 define(['angular', 'service', 's/api'], function(angular, Service)
 {
-  Service.factory('$response$', [
+  Service.factory('$trigger$', [
     '$rootScope', '$api$', '$q', function($rootScope, $api$, $q)
     {
       var promise = {};
-      var responseList = {
+      var triggerList = {
         text: []
       };
 
@@ -20,15 +20,7 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         return null;
       };
 
-      var all_type = [
-        'none', 'text'
-      ];
-
       var service = {
-        type  : function(type)
-        {
-          return type ? all_type[+ type] : all_type;
-        },
         get   : function(type, id)
         {
           return service.list(type).then(function(list)
@@ -42,10 +34,10 @@ define(['angular', 'service', 's/api'], function(angular, Service)
           if (forceUpdate || ! angular.isDefined(promise[type])) {
             var defer = $q.defer();
 
-            $api$.get('response/' + type).success(function(list)
+            $api$.get('trigger/' + type).success(function(list)
             {
-              angular.copy(list, responseList[type]);
-              defer.resolve(responseList[type]);
+              angular.copy(list, triggerList[type]);
+              defer.resolve(triggerList[type]);
             });
             promise[type] = defer.promise;
           }
@@ -56,10 +48,10 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         {
           var defer = $q.defer();
 
-          $api$.post('response/' + type, data).success(function(response)
+          $api$.post('trigger/' + type, data).success(function(trigger)
           {
-            responseList[type].unshift(response);
-            defer.resolve(response);
+            triggerList[type].unshift(trigger);
+            defer.resolve(trigger);
           });
 
           return defer.promise;
@@ -69,11 +61,11 @@ define(['angular', 'service', 's/api'], function(angular, Service)
           var defer = $q.defer();
           var id = data.id;
 
-          $api$.put('response/' + type + '/' + id, data).success(function()
+          $api$.put('trigger/' + type + '/' + id, data).success(function()
           {
-            service.get(type, id).then(function(response)
+            service.get(type, id).then(function(trigger)
             {
-              angular.copy(data, response);
+              angular.copy(data, trigger);
             });
             defer.resolve();
           });
@@ -84,7 +76,7 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         {
           var defer = $q.defer();
 
-          $api$.delete('response/' + type + '/' + data.id).success(function()
+          $api$.delete('trigger/' + type + '/' + data.id).success(function()
           {
             defer.resolve();
           });

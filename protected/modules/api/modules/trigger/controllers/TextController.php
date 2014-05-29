@@ -9,6 +9,13 @@ class TextController extends CAuthedController
     {
         $list = $this->_auth->account->triggerText;
 
+        $list = $this->extract($list, array(
+            'id',
+            'keyword',
+            'response_type',
+            'response_id',
+        ));
+
         $this->response($list);
     }
 
@@ -40,7 +47,7 @@ class TextController extends CAuthedController
         $data = $this->getRequestData();
 
         $accountId = $this->_auth->account->id;
-        $trigger = ResponseText::model()->findByAttributes(array(
+        $trigger = TriggerText::model()->findByAttributes(array(
             'id'         => $id,
             'account_id' => $accountId,
         ));
@@ -53,6 +60,30 @@ class TextController extends CAuthedController
         $trigger->attributes = $data;
 
         if ($trigger->save()) {
+            $this->successNoContent();
+        } else {
+            $this->errorNotAcceptable($trigger->getErrors());
+        }
+    }
+
+    /**
+     * 删除
+     * @param $id
+     */
+    public function actionDeleteById($id)
+    {
+        $accountId = $this->_auth->account->id;
+        $trigger = TriggerText::model()->findByAttributes(array(
+            'id'         => $id,
+            'account_id' => $accountId,
+        ));
+
+        if (! $trigger) {
+            $this->errorForbidden();
+            return;
+        }
+
+        if ($trigger->delete()) {
             $this->successNoContent();
         } else {
             $this->errorNotAcceptable($trigger->getErrors());

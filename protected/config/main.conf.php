@@ -107,7 +107,7 @@ return array(
         'api'     => array(
             'modules' => array(
                 'response' => array(), //响应
-                'request'  => array(), //请求
+                'trigger'  => array(), //请求
             ),
         ),
         'console' => array(),

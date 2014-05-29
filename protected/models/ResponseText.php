@@ -2,11 +2,9 @@
 
 /**
  * Class ResponseText
- * @property number $id
- * @property string $account_id
  * @property string $content
  */
-class ResponseText extends ActiveRecord
+class ResponseText extends Response
 {
     /**
      * @param string $className

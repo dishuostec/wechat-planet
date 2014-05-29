@@ -18,8 +18,8 @@
 			</div>
 			<div ng-if="user.id">
 				<ul class="nav navbar-nav">
-					<li ui-sref-active="active" ng-repeat="(state, caption) in menu">
-						<a ui-sref="{{state}}" ng-bind="caption"></a></li>
+					<li ui-sref-active="active" ng-repeat="item in menu">
+						<a ui-sref="{{item.link}}">{{item.caption}}</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

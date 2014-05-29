@@ -1,7 +1,7 @@
 define([
   'angular', 'route', 'angularAnimate', 'ngUi', 'ngUiRouter',
 
-  'c/Auth', 'c/Menu', 'c/Alert', 'c/Account', 'c/Response',
+  'c/Auth', 'c/Menu', 'c/Alert', 'c/Account', 'c/Response', 'c/Trigger',
 
   's/apiHttpInterceptor'
 ], function(angular, route)

@@ -1,11 +1,11 @@
 define([
-  'config', 'angular', 'controller', 's/auth', 's/response', 'c/response/Edit'
+  'config', 'angular', 'controller', 's/auth', 's/trigger', 'c/trigger/Edit'
 ], function(config, angular, Controllers)
 {
-  Controllers.controller('ResponseList', [
+  Controllers.controller('TriggerList', [
     '$scope', '$rootScope', '$auth$', '$api$', '$stateParams', '$q',
-    '$response$', '$modal',
-    function($scope, $rootScope, $auth$, $api$, $stateParams, $q, $response$,
+    '$trigger$', '$modal',
+    function($scope, $rootScope, $auth$, $api$, $stateParams, $q, $trigger$,
              $modal)
     {
       $scope.list = null;
@@ -14,13 +14,13 @@ define([
 
       $scope.del = function(index)
       {
-        $response$.remove(type, $scope.list[index]).then(function()
+        $trigger$.remove(type, $scope.list[index]).then(function()
         {
           $scope.list.splice(index, 1);
         });
       };
 
-      $response$.list(type).then(function(list)
+      $trigger$.list(type).then(function(list)
       {
         $scope.list = list;
       });

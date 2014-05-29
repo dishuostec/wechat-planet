@@ -27,8 +27,14 @@ class AuthController extends CApiController
         }
 
         $menu = array(
-//            'trigger.list' => '自动回复',
-            'response' => '内容管理',
+            array(
+                'link'=>'trigger',
+                'caption'=>'自动回复',
+            ),
+            array(
+                'link'=>'response',
+                'caption'=>'内容管理',
+            ),
         );
         $this->response($menu);
     }

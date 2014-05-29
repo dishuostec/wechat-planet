@@ -15,8 +15,45 @@ define(['config', 'h/string'], function(config, string)
 
       .state('trigger', {
         url        : baseUrl + '/trigger',
-        templateUrl: baseTplUrl + '/trigger/list.html',
+        templateUrl: baseTplUrl + '/trigger/index.html',
         controller : 'Trigger'
+      })
+
+      .state('trigger.type', {
+        url        : '/{type}',
+        templateUrl: function($stateParams)
+        {
+          return baseTplUrl + '/trigger/' + $stateParams.type + '.list.html';
+        },
+        controller : 'TriggerList'
+      })
+
+      .state('trigger.type.edit', {
+        url    : '/{id}',
+        onEnter: function($stateParams, $state, $modal, $rootScope)
+        {
+          var type = $stateParams.type;
+          var tplUrl = baseTplUrl + '/trigger/' + type + '.edit.html';
+
+          var modal = $modal.open({
+            size       : 'lg',
+            templateUrl: tplUrl,
+            controller : 'TriggerEdit',
+            keyboard   : false,
+            backdrop   : 'static'
+          });
+
+          var off = $rootScope.$on('$stateChangeStart', function()
+          {
+            modal.dismiss('route change');
+          });
+
+          modal.result.finally(function()
+          {
+            off();
+            return $state.go('^');
+          })
+        }
       })
 
       .state('response', {

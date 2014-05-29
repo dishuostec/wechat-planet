@@ -24,9 +24,18 @@ class TriggerText extends Trigger
     {
         return array(
             array('account', 'required', 'on' => 'create'),
-            array('keyword, response_type, response_id', 'required'),
+            array('keyword', 'required'),
             array('keyword', 'length', 'max' => 255),
+            array('response_type', 'length', 'min' => 1),
+            array('response_id', 'length', 'min' => 1),
             array('response_id', 'responseExist'),
+        );
+    }
+
+    public function attributeLabels()
+    {
+        return array(
+            'keyword'=>'关键字',
         );
     }
 }
