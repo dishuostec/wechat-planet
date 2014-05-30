@@ -142,7 +142,7 @@ class Account extends ActiveRecord
     public function changeToken()
     {
         do {
-            $token = Text::random('alnum', 40);
+            $token = Text::random('alnum', 32);
         } while (Account::model()->exists('token=:token', array(
             ':token' => $token,
         )));
