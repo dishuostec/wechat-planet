@@ -42,20 +42,14 @@ class TextController extends CAuthedController
      */
     public function actionPutById($id)
     {
-        $data = $this->getRequestData();
+        $response = $this->_auth->account->fetchResponseText($id);
 
-        $accountId = $this->_auth->account->id;
-        $response = ResponseText::model()->findByAttributes(array(
-            'id'         => $id,
-            'account_id' => $accountId,
-        ));
-
-        if (! $response) {
+        if (is_null($response)) {
             $this->errorForbidden();
             return;
         }
 
-        $response->attributes = $data;
+        $response->attributes = $this->getRequestData();
 
         if ($response->save()) {
             $this->successNoContent();
@@ -70,21 +64,14 @@ class TextController extends CAuthedController
      */
     public function actionDeleteById($id)
     {
-        $accountId = $this->_auth->account->id;
-        $response = ResponseText::model()->findByAttributes(array(
-            'id'         => $id,
-            'account_id' => $accountId,
-        ));
+        $response = $this->_auth->account->fetchResponseText($id);
 
-        if (! $response) {
+        if (is_null($response)) {
             $this->errorForbidden();
             return;
         }
 
-        if ($response->delete()) {
-            $this->successNoContent();
-        } else {
-            $this->errorNotAcceptable($response->getErrors());
-        }
+        $response->delete();
+        $this->successNoContent();
     }
 }

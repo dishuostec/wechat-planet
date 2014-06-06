@@ -23,7 +23,7 @@ class AccountController extends CAuthedController
      */
     public function actionPostDetailById($id)
     {
-        if (! ($account = $this->manager->getAccount($id))) {
+        if (! ($account = $this->manager->fetchAccount($id))) {
             $this->errorForbidden();
             return;
         }
@@ -39,7 +39,7 @@ class AccountController extends CAuthedController
      */
     public function actionPutById($id)
     {
-        if (! ($account = $this->manager->getAccount($id))) {
+        if (! ($account = $this->manager->fetchAccount($id))) {
             $this->errorForbidden();
             return;
         }
@@ -59,7 +59,7 @@ class AccountController extends CAuthedController
      */
     public function actionPostCurrentById($id)
     {
-        if (! ($account = $this->manager->getAccount($id))) {
+        if (! ($account = $this->manager->fetchAccount($id))) {
             $this->errorForbidden();
             return;
         }
@@ -69,7 +69,7 @@ class AccountController extends CAuthedController
 
     public function actionPostUrlById($id)
     {
-        if (! ($account = $this->manager->getAccount($id))) {
+        if (! ($account = $this->manager->fetchAccount($id))) {
             $this->errorForbidden();
             return;
         }
@@ -80,7 +80,7 @@ class AccountController extends CAuthedController
 
     public function actionPostTokenById($id)
     {
-        if (! ($account = $this->manager->getAccount($id))) {
+        if (! ($account = $this->manager->fetchAccount($id))) {
             $this->errorForbidden();
             return;
         }

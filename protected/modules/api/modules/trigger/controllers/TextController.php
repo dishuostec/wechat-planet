@@ -44,20 +44,14 @@ class TextController extends CAuthedController
      */
     public function actionPutById($id)
     {
-        $data = $this->getRequestData();
+        $trigger = $this->_auth->account->fetchTriggerText($id);
 
-        $accountId = $this->_auth->account->id;
-        $trigger = TriggerText::model()->findByAttributes(array(
-            'id'         => $id,
-            'account_id' => $accountId,
-        ));
-
-        if (! $trigger) {
+        if (is_null($trigger)) {
             $this->errorForbidden();
             return;
         }
 
-        $trigger->attributes = $data;
+        $trigger->attributes = $this->getRequestData();
 
         if ($trigger->save()) {
             $this->successNoContent();
@@ -72,21 +66,14 @@ class TextController extends CAuthedController
      */
     public function actionDeleteById($id)
     {
-        $accountId = $this->_auth->account->id;
-        $trigger = TriggerText::model()->findByAttributes(array(
-            'id'         => $id,
-            'account_id' => $accountId,
-        ));
+        $trigger = $this->_auth->account->fetchTriggerText($id);
 
-        if (! $trigger) {
+        if (is_null($trigger)) {
             $this->errorForbidden();
             return;
         }
 
-        if ($trigger->delete()) {
-            $this->successNoContent();
-        } else {
-            $this->errorNotAcceptable($trigger->getErrors());
-        }
+        $trigger->delete();
+        $this->successNoContent();
     }
 }

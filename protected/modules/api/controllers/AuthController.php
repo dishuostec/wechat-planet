@@ -35,6 +35,10 @@ class AuthController extends CApiController
                 'link'=>'response',
                 'caption'=>'内容管理',
             ),
+            array(
+                'link'=>'menu',
+                'caption'=>'菜单',
+            ),
         );
         $this->response($menu);
     }

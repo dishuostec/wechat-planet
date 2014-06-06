@@ -77,22 +77,29 @@ class Manager extends CActiveRecord
      * 获取指定的关联公众号
      *
      * @param $account_id
-     * @return Account|null
+     * @param bool $returnDefault
+     * @return mixed|null
      */
-    public function getAccount($account_id)
+    public function fetchAccount($account_id, $returnDefault = FALSE)
     {
         if (empty($account_id)) {
-            return NULL;
+            $object = NULL;
+        } else {
+            $object = array_pop($this->accounts(array(
+                'condition' => 'accounts.id=:id',
+                'params'    => array(
+                    ':id' => $account_id,
+                ),
+                'limit'     => 1,
+            )));
         }
 
-        $list = $this->accounts(array(
-            'condition' => 'accounts.id=:id',
-            'params'    => array(
-                ':id' => $account_id,
-            ),
-            'limit'     => 1,
-        ));
+        if (is_null($object) && $returnDefault) {
+            $object = array_pop($this->accounts(array(
+                'limit' => 1,
+            )));
+        }
 
-        return array_pop($list);
+        return $object;
     }
 }

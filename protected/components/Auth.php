@@ -104,14 +104,7 @@ class Auth extends CApplicationComponent
         if (is_null($this->_accountId)) {
             $accountId = $this->_cookie->get(self::KEY_CURRENT_ACCOUNT_ID);
 
-            $account = $this->manager->getAccount($accountId);
-
-            if (is_null($account)) {
-                $account = $this->manager->accounts(array(
-                    'limit' => 1,
-                ));
-                $account = array_pop($account);
-            }
+            $account = $this->manager->fetchAccount($accountId, TRUE);
 
             if (is_null($account)) {
                 $this->_accountId = FALSE;

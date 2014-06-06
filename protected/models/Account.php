@@ -19,9 +19,13 @@
  * @property bool $isCertified
  * @property bool $isCurrent
  *
+ * @property array $menu
+ *
  * 关系模型
  * @property Manager $rootManager
  * @property Array $managers
+ * @property Array $menuItems
+ * @property MenuData $menuData
  * @property Array $responseText
  * @property Array $triggerText
  */
@@ -89,6 +93,12 @@ class Account extends ActiveRecord
                 self::MANY_MANY, 'Manager', '{{manager_account}}(manager_id, account_id)',
                 'condition' => 'managers.is_banded = 0',
             ),
+            'menuItems'    => array(
+                self::HAS_MANY, 'MenuItem', 'account_id',
+            ),
+            'menuData'     => array(
+                self::HAS_ONE, 'MenuData', 'account_id',
+            ),
             'responseText' => array(
                 self::HAS_MANY, 'ResponseText', 'account_id',
                 'order' => 'id DESC',
@@ -124,6 +134,73 @@ class Account extends ActiveRecord
         return Mod::app()->createAbsoluteUrl('WeChat/Callback', array(
             'suffix' => $this->suffix,
         ));
+    }
+
+    /**
+     * @param array $menu
+     */
+    public function setMenu(array $menu)
+    {
+        $this->menuData->data = serialize($menu);
+        $this->menuData->save();
+    }
+
+    /**
+     * @return array
+     */
+    public function getMenu()
+    {
+        $data = unserialize($this->menuData->data);
+        return $data === FALSE ? array() : $data;
+    }
+
+    /**
+     * @param $id
+     * @return MenuItem|null
+     */
+    public function fetchMenuItem($id)
+    {
+        if (empty($id)) {
+            return NULL;
+        }
+
+        return array_pop($this->menuItems(array(
+            'condition' => 'id=:id',
+            'params'    => array(
+                ':id' => $id,
+            ),
+            'limit'     => 1,
+        )));
+    }
+
+    public function fetchResponseText($id)
+    {
+        if (empty($id)) {
+            return NULL;
+        }
+
+        return array_pop($this->responseText(array(
+            'condition' => 'id=:id',
+            'params'    => array(
+                ':id' => $id,
+            ),
+            'limit'     => 1,
+        )));
+    }
+
+    public function fetchTriggerText($id)
+    {
+        if (empty($id)) {
+            return NULL;
+        }
+
+        return array_pop($this->triggerText(array(
+            'condition' => 'id=:id',
+            'params'    => array(
+                ':id' => $id,
+            ),
+            'limit'     => 1,
+        )));
     }
 
     public function changeSuffix()

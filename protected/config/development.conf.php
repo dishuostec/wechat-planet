@@ -5,12 +5,6 @@ return array(
             'routes' => array(
                 array(
                     'class'       => 'CFileLogRoute', // 写入
-                    'levels'      => 'error', // 记录所有级别的
-                    'LogDir'      => LOG_DIR, //此目录可配置,在此目录下，每天一个文件夹
-                    'logFileName' => 'error.log' //记录日志的文件名可配置
-                ),
-                array(
-                    'class'       => 'CFileLogRoute', // 写入
                     'levels'      => '', // 记录所有级别的
                     'LogDir'      => LOG_DIR, //此目录可配置,在此目录下，每天一个文件夹
                     'logFileName' => 'all.log' //记录日志的文件名可配置
