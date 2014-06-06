@@ -23,7 +23,7 @@ class TriggerText extends Trigger
     public function rules()
     {
         return array(
-            array('account', 'required', 'on' => 'create'),
+            array('account_id', 'required', 'on' => 'create'),
             array('keyword', 'required'),
             array('keyword', 'length', 'max' => 255),
             array('response_type', 'length', 'min' => 1),
@@ -35,7 +35,7 @@ class TriggerText extends Trigger
     public function attributeLabels()
     {
         return array(
-            'keyword'=>'关键字',
+            'keyword' => '关键字',
         );
     }
 }

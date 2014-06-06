@@ -48,6 +48,7 @@ class MenuController extends CAuthedController
     {
         $menuItem = new MenuItem();
         $menuItem->attributes = $this->getRequestData();
+        $menuItem->account_id = $this->_auth->account->id;
 
         if ($menuItem->save()) {
             $this->response($menuItem);
