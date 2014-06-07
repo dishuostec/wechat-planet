@@ -54,42 +54,27 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         },
         add   : function(type, data)
         {
-          var defer = $q.defer();
-
-          $api$.post('response/' + type, data).success(function(response)
+          return $api$.post('response/' + type, data).success(function(response)
           {
             responseList[type].unshift(response);
-            defer.resolve(response);
           });
-
-          return defer.promise;
         },
         update: function(type, data)
         {
-          var defer = $q.defer();
           var id = data.id;
 
-          $api$.put('response/' + type + '/' + id, data).success(function()
+          return $api$.put('response/' + type + '/' + id,
+          data).success(function()
           {
             service.get(type, id).then(function(response)
             {
               angular.copy(data, response);
             });
-            defer.resolve();
           });
-
-          return defer.promise;
         },
         remove: function(type, data)
         {
-          var defer = $q.defer();
-
-          $api$.delete('response/' + type + '/' + data.id).success(function()
-          {
-            defer.resolve();
-          });
-
-          return defer.promise;
+          return $api$.delete('response/' + type + '/' + data.id);
         }
       };
 

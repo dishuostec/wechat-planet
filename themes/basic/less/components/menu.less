@@ -1,14 +1,59 @@
-#nav-account-menu {
-  > li > a {
-    &.nav-account-item {
-      &:empty {
-        &::before {
-          content: "";
-          display: inline-block;
-          height: 1em;
-          width: 1px;
-        }
-      }
-    }
+@import "variables";
+
+.menu-column,
+.menu-item-list {
+  border-radius: 10px;
+  border: solid 1px;
+}
+
+.menu-column {
+  border-color: @state-info-border;
+  background-color: @state-info-bg;
+}
+
+.menu-item-list {
+  border-color: @state-success-border;
+  background-color: @state-success-bg;
+}
+
+.menu-header {
+  margin: 10px 0;
+  padding: 0 3px;
+  font-size: 15px;
+
+  .menu-column &{
+    color:@state-info-text;
   }
+  .menu-item-list &{
+    color:@state-success-text;
+  }
+}
+
+.menu-list {
+  padding-left: 0;
+  min-height: 3em;
+}
+
+.menu-item,
+.menu-item-move-placeholder,
+.menu-item-add-placeholder {
+  padding: 2px;
+  border-radius: 3px;
+  display: block;
+  position: relative;
+  min-height: 20px;
+  line-height: 20px;
+  margin: 2px;
+  border: solid 1px darkgrey;
+  background-color: #ffffff;
+}
+
+.menu-item-move-placeholder {
+  background-color: @state-warning-bg;
+  border: dashed 1px @state-warning-border;
+}
+
+.menu-item-add-placeholder {
+  background-color: @state-success-bg;
+  border: dashed 1px @state-success-border;
 }

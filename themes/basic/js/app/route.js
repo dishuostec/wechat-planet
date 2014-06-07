@@ -98,6 +98,12 @@ define(['config', 'h/string'], function(config, string)
         }
       })
 
+      .state('menu', {
+        url        : baseUrl + '/menu',
+        templateUrl: baseTplUrl + '/menu/items.html',
+        controller : 'Menu'
+      })
+
       .state('account', {
         url        : baseUrl + '/account/:accountId',
         templateUrl: baseTplUrl + '/account/config.html',

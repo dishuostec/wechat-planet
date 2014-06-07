@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="menu-column col-sm-3" ng-repeat="menu in menus">
+		<div class="menu-header">
+			<span>菜单 {{$index+1}}</span>
+		</div>
+		<ol class="menu-list menu-design" ui-sortable="menuSortOptions" ng-model="menu">
+			<li class="menu-item" ng-repeat="item in menu track by $index">
+				<div class="row">
+					<div class="col-sm-10">
+						<span class="menu-name drag-handle">{{item.name}}</span>
+					</div>
+					<div class="col-sm-2">
+						<a class="pull-right btn btn-xs button-remove" ng-click="removeMenu($parent.$index, $index)"><span class="glyphicon glyphicon-remove"></span></a>
+					</div>
+				</div>
+			</li>
+		</ol>
+	</div>
+
+	<div class="menu-item-list col-sm-3">
+		<div class="menu-header">
+			<span>备选</span>
+			<a class="pull-right" ng-click="addMenu()"><span class="glyphicon glyphicon-plus"></span></a>
+		</div>
+		<ul class="menu-list menu-prepare" ui-sortable="listSortOptions" ng-model="list">
+			<li class="menu-item" ng-repeat="item in list">
+				<div class="row">
+					<div class="col-sm-10">
+						<span class="menu-name drag-handle">{{item.name}}</span>
+					</div>
+					<div class="col-sm-2">
+						<a class="pull-right btn btn-xs" ng-click="editMenu($index)"><span class="glyphicon glyphicon-edit"></span></a>
+				</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>	<a class="btn btn-primary" ng-click="updateMenu()">保存</a>
+<a class="btn btn-success" ng-click="publishMenu()">发布到微信</a>
+	{{menus}}

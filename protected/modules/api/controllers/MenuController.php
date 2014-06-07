@@ -10,7 +10,7 @@ class MenuController extends CAuthedController
      */
     public function actionGet()
     {
-        $data = $this->_auth->account->menuData;
+        $data = $this->_auth->account->menu;
         $this->response($data);
     }
 
@@ -19,14 +19,14 @@ class MenuController extends CAuthedController
      */
     public function actionPut()
     {
-        $this->_auth->account->menuData = $this->getRequestData();
+        $this->_auth->account->menu = $this->getRequestData();
         $this->successNoContent();
     }
 
     /**
      * 发布菜单到微信服务器
      */
-    public function actionPostSubmit()
+    public function actionPostPublish()
     {
         // TODO: 微信实现
     }

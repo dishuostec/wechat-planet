@@ -1,62 +1,63 @@
-define(['angular', 'controller', 's/auth'], function(angular, Controllers)
+define(['jQuery', 'controller', 's/menu'], function($, Controllers)
 {
   Controllers.controller('Menu', [
-    '$scope', '$rootScope', '$auth$', '$api$', '$state', '$window',
-    function($scope, $rootScope, $auth$, $api$, $state, $window)
+    '$scope', '$menu$', function($scope, $menu$)
     {
-      $scope.ready = false;
-
-      $scope.isCollapsed = true;
-      $scope.menu = null;
-      $scope.user = null;
-      $scope.currentAccount = null;
-      $scope.accounts = null;
-
-      var logoutCallback = function()
-      {
-        console.log('logged out');
-        $window.location.reload();
+      $scope.menuSortOptions = {
+        helper     : 'clone',
+        cursor     : 'move',
+        placeholder: 'menu-item-move-placeholder',
+        opacity: 0.5,
+        connectWith: '.menu-design'
       };
 
-      $rootScope.$on('auth.logout', logoutCallback);
-
-      $scope.logout = function()
-      {
-        console.log('logout');
-        require(['ptloginout'], function(ptloginout)
+      $scope.listSortOptions = {
+        helper     : 'clone',
+        cursor     : 'move',
+        placeholder: 'menu-item-add-placeholder',
+        opacity: 0.5,
+        connectWith: '.menu-design',
+        stop       : function()
         {
-          ptloginout.logout(logoutCallback);
-        })
-      };
-
-      $scope.changeAccount = function(account_id)
-      {
-        if (account_id === $scope.currentAccount.id) {
-          return false;
+          $scope.list = $scope.originList.slice();
         }
-
-        $api$.post('account/current/' + account_id).success(function()
-        {
-          $window.location.reload();
-        });
       };
 
-      $auth$.checkState().then(function(auth)
+      $scope.removeMenu = function(menuIndex, itemIndex)
       {
-        $scope.ready = true;
+        $scope.menus[menuIndex].splice(itemIndex, 1);
+      };
 
-        $scope.currentAccount = auth.getCurrentAccount();
-        $scope.user = auth.getUser();
-        $scope.accounts = auth.getAccounts();
+      //      $scope.moveMenu = function(menuIndex, itemIndex, isUp)
+      //      {
+      //        var menu = $scope.menus[menuIndex];
+      //        if (isUp && itemIndex ===0 )
+      //        {
+      //
+      //        }
+      //        var item = $scope.menus[menuIndex].splice(itemIndex, 1);
+      //        console.log('remove', menuIndex, itemIndex, isUp);
+      //      };
 
-        $api$.get('auth/menu').success(function(menu)
-        {
-          $scope.menu = menu;
-        });
-      }, function()
+      //      $scope.addMenu = function(index)
+      //      {
+      //        var i = Math.floor(Math.random() * $scope.items.length);
+      //        $scope.menus[index].push($scope.items[i]);
+      //      };
+
+      $scope.updateMenu = $menu$.menus.update;
+      $scope.publishMenu = $menu$.menus.publish;
+
+      $menu$.menus.get().then(function(data)
       {
-        $scope.ready = true;
+        $scope.menus = data;
       });
+
+      $menu$.items.list().then(function(list)
+      {
+        $scope.originList = list;
+        $scope.list = list.slice();
+      })
     }
   ]);
 });

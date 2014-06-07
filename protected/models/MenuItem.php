@@ -65,6 +65,8 @@ class MenuItem extends CActiveRecord
             'id',
             'name',
             'caption',
+            'type',
+            'url',
             'response_type',
             'response_id',
         );

@@ -46,42 +46,27 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         },
         add   : function(type, data)
         {
-          var defer = $q.defer();
-
-          $api$.post('trigger/' + type, data).success(function(trigger)
+          return $api$.post('trigger/' + type, data).success(function(trigger)
           {
             triggerList[type].unshift(trigger);
-            defer.resolve(trigger);
           });
-
-          return defer.promise;
         },
         update: function(type, data)
         {
-          var defer = $q.defer();
           var id = data.id;
 
-          $api$.put('trigger/' + type + '/' + id, data).success(function()
+          return $api$.put('trigger/' + type + '/' + id,
+          data).success(function()
           {
             service.get(type, id).then(function(trigger)
             {
               angular.copy(data, trigger);
             });
-            defer.resolve();
           });
-
-          return defer.promise;
         },
         remove: function(type, data)
         {
-          var defer = $q.defer();
-
-          $api$.delete('trigger/' + type + '/' + data.id).success(function()
-          {
-            defer.resolve();
-          });
-
-          return defer.promise;
+          return $api$.delete('trigger/' + type + '/' + data.id);
         }
       };
 

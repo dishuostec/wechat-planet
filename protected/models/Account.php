@@ -141,8 +141,13 @@ class Account extends ActiveRecord
      */
     public function setMenu(array $menu)
     {
-        $this->menuData->data = serialize($menu);
-        $this->menuData->save();
+        $menuData = $this->menuData;
+        if (is_null($menuData)) {
+            $menuData = new MenuData();
+            $menuData->account_id = $this->id;
+        }
+        $menuData->data = serialize($menu);
+        $menuData->save();
     }
 
     /**

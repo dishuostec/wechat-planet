@@ -16,7 +16,7 @@ $assetsPath = Mod::app()->theme->baseUrl;
 <link rel="stylesheet" href="<?php echo $assetsPath; ?>/css/console.css"/>
 </head>
 <body>
-<block ng-include="'<?php echo $assetsPath; ?>/template/menu.html'"></block>
+<block ng-include="'<?php echo $assetsPath; ?>/template/console.menu.html'"></block>
 <block ng-include="'<?php echo $assetsPath; ?>/template/alert.html'"></block>
 <div class="container-fluid" ui-view></div>
 <script type="text/javascript" data-main="<?php echo $assetsPath; ?>/js/main.js" src="<?php echo $assetsPath; ?>/js/vendor/require.js"></script>

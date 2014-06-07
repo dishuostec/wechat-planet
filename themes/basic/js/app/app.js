@@ -1,14 +1,15 @@
 define([
-  'angular', 'route', 'angularAnimate', 'ngUi', 'ngUiRouter',
+  'angular', 'route', 'angularAnimate', 'ngUi', 'ngUiRouter', 'ngUiSortable',
 
-  'c/Auth', 'c/Menu', 'c/Alert', 'c/Account', 'c/Response', 'c/Trigger',
+  'c/Auth', 'c/ConsoleMenu', 'c/Alert', 'c/Account', 'c/Response', 'c/Trigger',
+  'c/Menu',
 
   's/apiHttpInterceptor'
 ], function(angular, route)
 {
   var con = angular.module('Console', [
     'ui.router', 'ui.bootstrap', 'Controllers', 'Services', 'Directives',
-    'ngAnimate'
+    'ngAnimate', 'ui.sortable'
   ])
 
     // 全局错误处理

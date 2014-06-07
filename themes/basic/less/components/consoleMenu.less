@@ -1,0 +1,14 @@
+#nav-account-menu {
+  > li > a {
+    &.nav-account-item {
+      &:empty {
+        &::before {
+          content: "";
+          display: inline-block;
+          height: 1em;
+          width: 1px;
+        }
+      }
+    }
+  }
+}
