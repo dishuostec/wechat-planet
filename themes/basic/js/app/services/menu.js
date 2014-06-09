@@ -3,49 +3,41 @@ define(['angular', 'service', 's/api'], function(angular, Service)
   Service.factory('$menu$', [
     '$rootScope', '$api$', '$q', function($rootScope, $api$, $q)
     {
-      var menuItems = [];
-      var menuData = [];
+      var itemsList = [];
+      var menuList = [
+        [],
+        [],
+        []
+      ];
 
       var dataPromise;
       var menuService = {
         get    : function(forceUpdate)
         {
           if (forceUpdate || ! angular.isDefined(dataPromise)) {
-            var defer = $q.defer();
-
-            $q.all({
+            dataPromise = $q.all({
               'menu' : $api$.get('menu'),
               'items': itemService.list(forceUpdate)
             }).then(function(data)
             {
-              var menus = [
-                [],
-                [],
-                []
-              ];
-
               var promiseList = [];
 
               angular.forEach(data.menu.data, function(menu, menuIndex)
               {
-                var items = [];
                 angular.forEach(menu, function(itemId, itemIndex)
                 {
                   promiseList.push(itemService.get(itemId).then(function(item)
                   {
-                    menus[menuIndex][itemIndex] = item;
-                  }));
+                    menuList[menuIndex][itemIndex] = item;
+                  }, angular.noop));
                 });
               });
 
-              $q.all(promiseList).then(function()
+              return $q.all(promiseList).then(function()
               {
-                angular.copy(menus, menuData);
-                defer.resolve(menuData);
+                return menuList;
               })
             });
-
-            dataPromise = defer.promise;
           }
 
           return dataPromise;
@@ -54,7 +46,7 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         {
           var data = [];
 
-          angular.forEach(menuData, function(menu, index)
+          angular.forEach(menuList, function(menu, index)
           {
             data[index] = [];
             angular.forEach(menu, function(item)
@@ -101,8 +93,8 @@ define(['angular', 'service', 's/api'], function(angular, Service)
 
             $api$.get('menu/item').success(function(list)
             {
-              angular.copy(list, menuItems);
-              defer.resolve(menuItems);
+              angular.copy(list, itemsList);
+              defer.resolve(itemsList);
             });
             itemPromise = defer.promise;
           }
@@ -113,14 +105,14 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         {
           return $api$.post('menu/item', data).success(function(response)
           {
-            menuItems.unshift(response);
+            itemsList.unshift(response);
           });
         },
         update: function(data)
         {
           var id = data.id;
 
-          return $api$.put('menu/item', data).success(function()
+          return $api$.put('menu/item/' + id, data).success(function()
           {
             itemService.get(id).then(function(item)
             {
@@ -130,7 +122,13 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         },
         remove: function(data)
         {
-          return $api$.delete('menu/item/' + data.id);
+          return $api$.delete('menu/item/' + data.id)
+
+          .success(function()
+          {
+            var index = getIndex(itemsList, data.id);
+            itemsList.splice(index, 1);
+          });
         }
       };
 

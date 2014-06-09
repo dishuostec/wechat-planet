@@ -36,11 +36,10 @@ define(['config', 'h/string'], function(config, string)
           var tplUrl = baseTplUrl + '/trigger/' + type + '.edit.html';
 
           var modal = $modal.open({
-            size       : 'lg',
+            //size       : 'lg',
             templateUrl: tplUrl,
             controller : 'TriggerEdit',
-            keyboard   : false,
-            backdrop   : 'static'
+            keyboard   : false
           });
 
           var off = $rootScope.$on('$stateChangeStart', function()
@@ -81,8 +80,7 @@ define(['config', 'h/string'], function(config, string)
           var modal = $modal.open({
             templateUrl: tplUrl,
             controller : 'ResponseEdit',
-            keyboard   : false,
-            backdrop   : 'static'
+            keyboard   : false
           });
 
           var off = $rootScope.$on('$stateChangeStart', function()
@@ -102,6 +100,29 @@ define(['config', 'h/string'], function(config, string)
         url        : baseUrl + '/menu',
         templateUrl: baseTplUrl + '/menu/items.html',
         controller : 'Menu'
+      })
+
+      .state('menu.edit', {
+        url    : '/{id}',
+        onEnter: function($state, $modal, $rootScope)
+        {
+          var modal = $modal.open({
+            templateUrl: baseTplUrl + '/menu/edit.html',
+            controller : 'MenuEdit',
+            keyboard   : false
+          });
+
+          var off = $rootScope.$on('$stateChangeStart', function()
+          {
+            modal.dismiss('route change');
+          });
+
+          modal.result.finally(function()
+          {
+            off();
+            return $state.go('^');
+          });
+        }
       })
 
       .state('account', {

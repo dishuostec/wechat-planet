@@ -66,7 +66,13 @@ define(['angular', 'service', 's/api'], function(angular, Service)
         },
         remove: function(type, data)
         {
-          return $api$.delete('trigger/' + type + '/' + data.id);
+          return $api$.delete('trigger/' + type + '/' + data.id)
+
+          .success(function()
+          {
+            var index = getIndex(triggerList[type], data.id);
+            triggerList[type].splice(index, 1);
+          });
         }
       };
 

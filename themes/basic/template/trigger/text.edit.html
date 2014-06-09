@@ -1,41 +1,37 @@
 <div class="modal-header">
 	<h3 class="modal-title">{{op}}触发</h3>
 </div>
-<div class="modal-body row">
-	<div class="col-md-4">
-		<form role="form" name="triggerForm">
-			<div class="form-group" ng-class="{'has-success':triggerForm.keyword.$valid,'has-error':!triggerForm.keyword.$valid}">
-				<label for="trigger_keyword">关键字</label>
-				<textarea name="keyword" id="trigger_keyword" class="form-control" rows="2" placeholder="关键字" ng-model="trigger.keyword" required ng-maxlength="255"></textarea>
+<div class="modal-body">
+	<form role="form" name="triggerForm">
+		<div class="form-group" ng-class="{'has-success':triggerForm.keyword.$valid,'has-error':!triggerForm.keyword.$valid}">
+			<label for="trigger_keyword">关键字</label>
+			<textarea name="keyword" id="trigger_keyword" class="form-control" rows="2" placeholder="关键字" ng-model="trigger.keyword" required ng-maxlength="255"></textarea>
+		</div>
+
+		<div class="form-group" ng-class="{'has-success':trigger.response_type&&trigger.response_id,'has-error':!trigger.response_type||!trigger.response_id}">
+			<label>响应</label>
+
+			<div>
+				<p>type:{{trigger.response_type}}</p>
+
+				<p>id:{{trigger.response_id}}</p>
+				<button class="btn btn-default btn-sm" ng-click="editResponse()">修改
+				</button>
 			</div>
-
-			<div class="form-group" ng-class="{'has-success':triggerForm.type.$valid,'has-error':!triggerForm.type.$valid}">
-				<label>响应类型</label>
-
-				<div>
-					<label class="radio-inline">
-						<input type="radio" name="type" value="1" ng-model="trigger.response_type" required>
-						文本
-					</label>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="col-md-8">
-		<form role="form" name="responseForm">
-
-			<div class="form-group">
-				<label for="trigger_keyword">响应内容</label>
-
-				<div class="choose-list">
-					<label ng-repeat="response in responseList" class="btn btn-default btn-xs" ng-class="{'btn-success':trigger.response_id==response.id}" ng-model="trigger.response_id" btn-radio="response.id">{{response.content}}</label>
-				</div>
-			</div>
-		</form>
-
-	</div>
+		</div>
+	</form>
 </div>
 <div class="modal-footer">
+
+	<div ng-if="trigger.id" class="pull-left btn-group" dropdown>
+		<button type="button" class="btn btn-danger dropdown-toggle">
+			删除 <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a ng-click="remove()">确认删除</a></li>
+		</ul>
+	</div>
+
 	<button class="btn btn-primary" ng-click="ok()">确定</button>
 	<button class="btn btn-warning" ng-click="cancel()">取消</button>
 </div>

@@ -12,16 +12,6 @@
 		<td>{{response.content}}</td>
 		<td>
 			<a ui-sref=".edit({id:response.id,type:type})" class="btn btn-default btn-xs">修改</a>
-
-			<div class="btn-group" dropdown>
-				<button type="button" class="btn btn-danger dropdown-toggle btn-xs">
-					删除 <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" role="menu">
-					<li><a ng-click="del($index)">确认删除</a></li>
-				</ul>
-			</div>
-
 		</td>
 	</tr>
 	</tbody>

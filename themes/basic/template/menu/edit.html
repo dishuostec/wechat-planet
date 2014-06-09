@@ -1,0 +1,71 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{op}}菜单</h3>
+</div>
+<div class="modal-body">
+	<form role="form" name="menuForm">
+
+		<div class="form-group" ng-class="{'has-success':menuForm.name.$valid,'has-error':!menuForm.name.$valid}">
+			<label for="menu_name">名称</label>
+			<input type="text" name="name" id="menu_name" class="form-control" placeholder="后台显示名称" ng-model="menu.name" required ng-maxlength="30"/>
+		</div>
+
+		<div class="form-group" ng-class="{'has-success':menuForm.caption.$valid,'has-error':!menuForm.caption.$valid}">
+			<label for="menu_caption">菜单文字</label>
+			<input type="text" name="caption" id="menu_caption" class="form-control" placeholder="微信客户端内显示的菜单文字" ng-model="menu.caption" required ng-maxlength="15"/>
+		</div>
+
+		<div class="form-group" ng-class="{'has-success':menuForm.type.$valid,'has-error':!menuForm.type.$valid}">
+			<label>菜单类型{{menu.type}}</label>
+
+			<div>
+				<label class="radio-inline">
+					<input type="radio" name="type" value="1" ng-model="menu.type" required>
+					链接
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="type" value="2" ng-model="menu.type" required>
+					返回响应
+				</label>
+			</div>
+		</div>
+
+		<div ng-switch="menu.type">
+			<div ng-switch-when="1" class="form-group" ng-class="{'has-success':menuForm.url.$valid,'has-error':!menuForm.url.$valid}">
+				<label for="menu_url">链接地址</label>
+				<input type="text" name="url" id="menu_url" class="form-control" placeholder="点击菜单后打开的地址" ng-model="menu.url" required ng-maxlength="255"/>
+			</div>
+
+			<div ng-switch-when="2" class="form-group" ng-class="{'has-success':menu.response_type&&menu.response_id,'has-error':!menu.response_type||!menu.response_id}">
+				<label>响应</label>
+
+				<div>
+					<input type="hidden" name="response_type" ng-model="menu.response_type" required/>
+					<input type="hidden" name="response_id" ng-model="menu.response_id" required/>
+
+					<p>type:{{menu.response_type}}</p>
+
+					<p>id:{{menu.response_id}}</p>
+					<button class="btn btn-default btn-sm" ng-click="editResponse()">修改
+					</button>
+				</div>
+			</div>
+		</div>
+
+	</form>
+</div>
+<div class="modal-footer">
+
+	<div ng-if="menu.id" class="pull-left btn-group" dropdown>
+		<button type="button" class="btn btn-danger dropdown-toggle">
+			删除 <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a ng-click="remove()">确认删除</a></li>
+		</ul>
+	</div>
+
+	<button class="btn btn-primary" ng-click="ok()" ng-disabled="!menuForm.$valid">
+		确定
+	</button>
+	<button class="btn btn-warning" ng-click="cancel()">取消</button>
+</div>

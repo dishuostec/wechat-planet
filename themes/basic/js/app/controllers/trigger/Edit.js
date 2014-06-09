@@ -1,10 +1,10 @@
-define(['angular', 'controller'], function(angular, Controllers)
+define(['angular', 'controller', 's/modal'], function(angular, Controllers)
 {
   Controllers.controller('TriggerEdit', [
     '$scope', '$modalInstance', '$stateParams', '$trigger$', '$response$',
-    '$cacheFactory',
+    '$cacheFactory', '$modal$',
     function($scope, $modalInstance, $stateParams, $trigger$, $response$,
-             $cacheFactory)
+             $cacheFactory, $modal$)
     {
       var id = $stateParams.id;
       var type = $stateParams.type;
@@ -25,18 +25,18 @@ define(['angular', 'controller'], function(angular, Controllers)
         });
       }
 
-      $scope.responseList = null;
-
-      $scope.$watch('trigger.response_type', function(currentType)
+      $scope.editResponse = function()
       {
-        if (currentType) {
-          var type = $response$.type(currentType);
-          $response$.list(type).then(function(list)
-          {
-            $scope.responseList = list;
-          });
-        }
-      });
+        var modalInstance = $modal$.response($scope.trigger.response_type,
+        $scope.trigger.response_id);
+
+        modalInstance.result.then(function(data)
+        {
+          console.log('modal close', arguments);
+          $scope.trigger.response_type = data.type;
+          $scope.trigger.response_id = data.id;
+        });
+      };
 
       $scope.cancel = function()
       {
@@ -54,7 +54,15 @@ define(['angular', 'controller'], function(angular, Controllers)
         $modalInstance.close();
       };
 
-      $modalInstance.result.finally(function()
+      $scope.remove = function(index)
+      {
+        $trigger$.remove(type, $scope.trigger).then(function()
+        {
+          $scope.$dismiss('removed cancel');
+        });
+      };
+
+      $modalInstance.result.then(null, function()
       {
         cache.put(id, $scope.trigger);
       });

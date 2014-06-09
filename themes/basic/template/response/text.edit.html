@@ -10,6 +10,16 @@
 	</form>
 </div>
 <div class="modal-footer">
+
+	<div ng-if="response.id" class="pull-left btn-group" dropdown>
+		<button type="button" class="btn btn-danger dropdown-toggle">
+			删除 <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a ng-click="remove()">确认删除</a></li>
+		</ul>
+	</div>
+
 	<button class="btn btn-primary" ng-click="ok()" ng-disabled="!responseForm.$valid">确定</button>
 	<button class="btn btn-warning" ng-click="cancel()">取消</button>
 </div>

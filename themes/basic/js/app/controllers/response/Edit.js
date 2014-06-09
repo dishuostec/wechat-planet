@@ -39,6 +39,14 @@ define(['angular', 'controller'], function(angular, Controllers)
         $modalInstance.close();
       };
 
+      $scope.remove = function()
+      {
+        $response$.remove(type, $scope.response).finally(function()
+        {
+          $scope.$dismiss('removed cancel');
+        });
+      };
+
       $modalInstance.result.then(null, function()
       {
         cache.put(id, $scope.response);

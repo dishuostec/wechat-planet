@@ -3,22 +3,12 @@ define([
 ], function(config, angular, Controllers)
 {
   Controllers.controller('ResponseList', [
-    '$scope', '$rootScope', '$auth$', '$api$', '$stateParams', '$q',
-    '$response$', '$modal',
-    function($scope, $rootScope, $auth$, $api$, $stateParams, $q, $response$,
-             $modal)
+    '$scope', '$stateParams', '$q', '$response$',
+    function($scope, $stateParams, $q, $response$)
     {
       $scope.list = null;
 
       var type = $scope.type = $stateParams.type;
-
-      $scope.del = function(index)
-      {
-        $response$.remove(type, $scope.list[index]).then(function()
-        {
-          $scope.list.splice(index, 1);
-        });
-      };
 
       $response$.list(type).then(function(list)
       {

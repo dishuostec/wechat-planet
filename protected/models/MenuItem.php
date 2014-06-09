@@ -34,7 +34,13 @@ class MenuItem extends CActiveRecord
     {
         return array(
             array('account_id', 'required', 'on' => 'create'),
+            array('name, caption, type', 'required'),
+            array('name', 'length', 'max' => 30),
+            array('caption', 'length', 'max' => 15),
             array('type', 'typeValid'),
+            array('url', 'safe'),
+            array('response_type', 'safe'),
+            array('response_id', 'safe'),
         );
     }
 
