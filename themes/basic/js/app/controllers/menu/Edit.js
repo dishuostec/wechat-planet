@@ -2,30 +2,40 @@ define(['angular', 'controller', 's/modal'], function(angular, Controllers)
 {
   Controllers.controller('MenuEdit', [
     '$scope', '$modalInstance', '$stateParams', '$menu$', '$cacheFactory',
-    '$modal$',
+    '$modal$','$q',
     function($scope, $modalInstance, $stateParams, $menu$, $cacheFactory,
-             $modal$)
+             $modal$, $q)
     {
       var id = $stateParams.id;
       var cacheId = 'menu';
       var cache = $cacheFactory.get(cacheId) || $cacheFactory(cacheId);
       var is_create = id === 'add';
 
+      var getFromCache = function(id)
+      {
+        var data = cache.get(id);
+        return angular.isDefined(data) ? data : (is_create ? {} : $q.reject());
+      };
+
+      var getFromService = function()
+      {
+        return $menu$.items.get(id);
+      };
+
+      $q.when(getFromCache())
+
+      .then(null, getFromService)
+
+      .then(function(data)
+      {
+        $scope.menu = data;
+      }, function()
+      {
+        $scope.$dismiss('not found cancel');
+      });
+
       $scope.op = (is_create ? '新建' : '修改');
       $scope.menu = cache.get(id);
-
-      if (! angular.isDefined($scope.menu)) {
-        $menu$.items.get(id).then(function(menu)
-        {
-          if (! + menu.type) {
-            menu.type = null;
-          }
-          $scope.menu = angular.copy(menu);
-        }, function()
-        {
-          $scope.menu = {};
-        });
-      }
 
       $scope.editResponse = function()
       {

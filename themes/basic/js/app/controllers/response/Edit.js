@@ -2,7 +2,9 @@ define(['angular', 'controller'], function(angular, Controllers)
 {
   Controllers.controller('ResponseEdit', [
     '$scope', '$modalInstance', '$stateParams', '$response$', '$cacheFactory',
-    function($scope, $modalInstance, $stateParams, $response$, $cacheFactory)
+    '$q',
+    function($scope, $modalInstance, $stateParams, $response$, $cacheFactory,
+             $q)
     {
       var id = $stateParams.id;
       var type = $stateParams.type;
@@ -10,18 +12,31 @@ define(['angular', 'controller'], function(angular, Controllers)
       var cache = $cacheFactory.get(cacheId) || $cacheFactory(cacheId);
       var is_create = id === 'add';
 
+      var getFromCache = function(id)
+      {
+        var data = cache.get(id);
+        return angular.isDefined(data) ? data : (is_create ? {} : $q.reject());
+      };
+
+      var getFromService = function()
+      {
+        return $response$.get(type, id);
+      };
+
+      $q.when(getFromCache())
+
+      .then(null, getFromService)
+
+      .then(function(data)
+      {
+        $scope.response = data;
+      }, function()
+      {
+        $scope.$dismiss('not found cancel');
+      });
+
       $scope.op = (is_create ? '新建' : '修改');
       $scope.response = cache.get(id);
-
-      if (! angular.isDefined($scope.response)) {
-        $response$.get(type, id).then(function(response)
-        {
-          $scope.response = angular.copy(response);
-        }, function()
-        {
-          $scope.response = {};
-        });
-      }
 
       $scope.cancel = function()
       {

@@ -15,15 +15,17 @@
 		</div>
 
 		<div class="form-group" ng-class="{'has-success':menuForm.type.$valid,'has-error':!menuForm.type.$valid}">
-			<label>菜单类型{{menu.type}}</label>
+			<label>菜单类型</label>
+
+			<input type="text" name="type" ng-model="menu.type" ng-show="false" ng-pattern="/^[1-9]\d*$/"/>
 
 			<div>
 				<label class="radio-inline">
-					<input type="radio" name="type" value="1" ng-model="menu.type" required>
+					<input type="radio" value="1" ng-model="menu.type" required>
 					链接
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="type" value="2" ng-model="menu.type" required>
+					<input type="radio" value="2" ng-model="menu.type" required>
 					返回响应
 				</label>
 			</div>
@@ -35,12 +37,12 @@
 				<input type="text" name="url" id="menu_url" class="form-control" placeholder="点击菜单后打开的地址" ng-model="menu.url" required ng-maxlength="255"/>
 			</div>
 
-			<div ng-switch-when="2" class="form-group" ng-class="{'has-success':menu.response_type&&menu.response_id,'has-error':!menu.response_type||!menu.response_id}">
+			<div ng-switch-when="2" class="form-group" ng-class="{'has-success':menuForm.response_type.$valid&&menuForm.response_id.$valid,'has-error':!menuForm.response_type.$valid||!menuForm.response_id.$valid}">
 				<label>响应</label>
 
 				<div>
-					<input type="hidden" name="response_type" ng-model="menu.response_type" required/>
-					<input type="hidden" name="response_id" ng-model="menu.response_id" required/>
+					<input type="text" name="response_type" ng-model="menu.response_type" ng-show="false" ng-pattern="/^[1-9]\d*$/" required/>
+					<input type="text" name="response_id" ng-model="menu.response_id" ng-show="false" ng-pattern="/^[1-9]\d*$/" required/>
 
 					<p>type:{{menu.response_type}}</p>
 

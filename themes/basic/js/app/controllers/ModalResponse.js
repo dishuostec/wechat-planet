@@ -4,27 +4,33 @@ define(['angular', 'controller'], function(angular, Controllers)
     '$scope', '$modalInstance', '$response$', 'type', 'id',
     function($scope, $modalInstance, $response$, type, id)
     {
-      $scope.response = {
-        item: function()
-        {
-          return $response$.get(type, id);
-        },
-        type:type,
-        id:id
+      var store = {};
+
+      $scope.choice = {
+        type: type,
+        id  : id
       };
 
       $scope.responseList = null;
 
-      $scope.$watch('response.type', function(currentType)
+      $scope.$watch('choice.type', function(currentType)
       {
-        if (currentType) {
+        if (+ currentType) {
           var typeId = $response$.type(currentType);
           $response$.list(typeId).then(function(list)
           {
             $scope.responseList = list;
+            if (store[currentType]) {
+              $scope.choice.id = store[currentType];
+            }
           });
         }
       });
+
+      $scope.chooseId = function(id)
+      {
+        store[$scope.choice.type] = id;
+      };
 
       $scope.cancel = function()
       {
@@ -33,7 +39,7 @@ define(['angular', 'controller'], function(angular, Controllers)
 
       $scope.ok = function()
       {
-        $modalInstance.close($scope.response);
+        $modalInstance.close($scope.choice);
       };
     }
   ]);

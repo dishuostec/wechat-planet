@@ -23,10 +23,13 @@ define(['angular', 'service', 's/api'], function(angular, Service)
       var service = {
         get   : function(type, id)
         {
+          console.log('get', type, id);
           return service.list(type).then(function(list)
           {
             var index = getIndex(list, id);
-            return (index === null ? $q.reject(null) : list[index]);
+            var data = (index === null ? $q.reject(null) : list[index]);
+            console.log(index, data);
+            return data;
           });
         },
         list  : function(type, forceUpdate)

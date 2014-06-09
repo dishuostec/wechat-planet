@@ -11,7 +11,7 @@ function(angular, Controllers)
 
       var refreshList = function()
       {
-        angular.copy(originList, $scope.list);
+        $scope.list = originList.slice();
       };
 
       $scope.menuSortOptions = {
@@ -52,8 +52,7 @@ function(angular, Controllers)
       $menu$.items.list().then(function(list)
       {
         originList = list;
-        $scope.list = list.slice();
-      })
+      }).then(refreshList)
     }
   ]);
 });

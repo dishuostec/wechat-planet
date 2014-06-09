@@ -2,9 +2,9 @@ define(['angular', 'controller', 's/modal'], function(angular, Controllers)
 {
   Controllers.controller('TriggerEdit', [
     '$scope', '$modalInstance', '$stateParams', '$trigger$', '$response$',
-    '$cacheFactory', '$modal$',
+    '$cacheFactory', '$modal$', '$q',
     function($scope, $modalInstance, $stateParams, $trigger$, $response$,
-             $cacheFactory, $modal$)
+             $cacheFactory, $modal$, $q)
     {
       var id = $stateParams.id;
       var type = $stateParams.type;
@@ -12,18 +12,30 @@ define(['angular', 'controller', 's/modal'], function(angular, Controllers)
       var cache = $cacheFactory.get(cacheId) || $cacheFactory(cacheId);
       var is_create = id === 'add';
 
-      $scope.op = (is_create ? '新建' : '修改');
-      $scope.trigger = cache.get(id);
+      var getFromCache = function(id)
+      {
+        var data = cache.get(id);
+        return angular.isDefined(data) ? data : (is_create ? {} : $q.reject());
+      };
 
-      if (! angular.isDefined($scope.trigger)) {
-        $trigger$.get(type, id).then(function(trigger)
-        {
-          $scope.trigger = angular.copy(trigger);
-        }, function()
-        {
-          $scope.trigger = {};
-        });
-      }
+      var getFromService = function()
+      {
+        return $trigger$.get(type, id);
+      };
+
+      $q.when(getFromCache())
+
+      .then(null, getFromService)
+
+      .then(function(data)
+      {
+        $scope.trigger = data;
+      }, function()
+      {
+        $scope.$dismiss('not found cancel');
+      });
+
+      $scope.op = (is_create ? '新建' : '修改');
 
       $scope.editResponse = function()
       {
