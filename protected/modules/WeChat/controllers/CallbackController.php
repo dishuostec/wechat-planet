@@ -9,36 +9,28 @@ class CallbackController extends CMultiWechatController
          */
         $account = Account::model()->findByPk($data->ToUserName);
 
-        $trigger = $account->triggerText(array(
+        $list = $account->triggerText(array(
             'condition' => 'keyword=:keyword',
             'params'    => array(
                 ':keyword' => $data->Content,
             ),
+            'limit'     => 1,
         ));
 
-        if (count($trigger)) {
-            /**
-             * @var TriggerText $trigger
-             */
-            $trigger = array_pop($trigger);
-            $response = $trigger->response;
-            if(empty($response))
-            {
-               $message = '错误:没有对应的返回内容'.$data->Content;
-            }
-            else{
-                $message = $response->content;
-            }
-        } else {
-            $message = '错误：找不到触发器 '.$data->Content;
+        if (! count($list)) {
+            return;
         }
+        /**
+         * @var TriggerText $trigger
+         */
+        $trigger = array_pop($list);
 
-        $text = $this->wechat->createMessageText();
-        $text->Content = $message;
-        $this->response($text);
+        $response = WeChatResponse::factory($trigger->response, $data);
+
+        $this->response($response);
     }
 
-    public function actionMessageImage($data)
+    public function actionEventClick(WechatEventClick $data)
     {
     }
 }

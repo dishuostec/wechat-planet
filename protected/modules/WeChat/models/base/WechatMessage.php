@@ -5,6 +5,13 @@ abstract Class WechatMessage extends WechatData
     protected $_json_format = array();
     protected $_xml_format = array();
 
+    public function rules()
+    {
+        return array(
+            array('ToUserName, FromUserName, CreateTime, MsgType', 'required'),
+        );
+    }
+
     /**
      * 回复系统事件，xml格式
      *

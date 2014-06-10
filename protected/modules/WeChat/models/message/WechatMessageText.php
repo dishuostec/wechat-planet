@@ -26,10 +26,23 @@ class WechatMessageText extends WechatMessage
 
     public $Content; //是，文本消息内容
 
+    public function rules()
+    {
+        return parent::rules() + array(
+            array('Content', 'required'),
+            array('content', 'safe', 'on' => 'autofill'),
+        );
+    }
+
     public function getText()
     {
         return array(
             'Content' => $this->Content,
         );
+    }
+
+    public function setContent($value)
+    {
+        $this->Content = $value;
     }
 }
